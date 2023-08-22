@@ -4,6 +4,9 @@
   "description": "A nuxt.js-based content management system designed for effectindex.com",
   "author": "Viscid",
   "private": true,
+  "engines": {
+    "node": "16.18.1"
+  },
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
