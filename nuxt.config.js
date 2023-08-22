@@ -158,33 +158,34 @@ module.exports = {
   },
 
   server: {
+    port: process.env.PORT || 3000, // Use the PORT environment variable provided by Heroku, default to 3000
     jwtSecret: process.env.jwtSecret,
-    mongooseUri: `mongodb://localhost:27017/${process.env.DATABASE_NAME ? process.env.DATABASE_NAME : 'effectindex'}`
+    mongooseUri: process.env.MONGOOSE_URI || `mongodb://localhost:27017/${process.env.DATABASE_NAME ? process.env.DATABASE_NAME : 'effectindex'}` // Use an environment variable for MongoDB URI or fallback to the local one
   },
 
   sitemap: {
-    hostname: "https://www.effectindex.com",
+    hostname: "https://my.tripp.report", // Updated to your custom domain
     exclude: [
       '/admin/**'
     ],
     routes: async function() {
       try {
         const results = await Promise.all([
-          axios.get('http://localhost:3000/api/effects'),
-          axios.get('http://localhost:3000/api/articles'),
-          axios.get('http://localhost:3000/api/blog'),
-          axios.get('http://localhost:3000/api/reports'),
+          axios.get(process.env.BASE_URL + '/api/effects'), // Using the environment variable
+          axios.get(process.env.BASE_URL + '/api/articles'),
+          axios.get(process.env.BASE_URL + '/api/blog'),
+          axios.get(process.env.BASE_URL + '/api/reports'),
         ]);
-
+  
         const [{ effects }, { articles }, { posts }, { reports }] = results.map(result => result.data);
-
+  
         const routes = [
           ...effects.map(effect => `/effects/${effect.url}`),
           ...reports.map(report => `/reports/${report.slug}`),
           ...posts.map(post => `/blog/${post.slug}`),
           ...articles.map(article => `/articles/${article.slug}`)
         ];
-
+  
         return routes;
       } catch (error) {
         console.log(`Could not generate sitemap. `, error);
@@ -192,4 +193,5 @@ module.exports = {
       }
     }
   }
+  
 };
