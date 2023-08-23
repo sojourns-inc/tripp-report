@@ -164,7 +164,7 @@ module.exports = {
   },
 
   sitemap: {
-    hostname: "https://my.tripp.report", // Updated to your custom domain
+    hostname: "https://www.effectindex.com",
     exclude: [
       '/admin/**'
     ],
