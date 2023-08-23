@@ -5,6 +5,7 @@ const Messages = require('./messages.js');
 const express = require("express");
 
 const mongoose = require("mongoose");
+const cors = require('cors'); // Import CORS
 
 const api = require("./models/");
 
@@ -16,6 +17,9 @@ const firstRun = require("./models/firstRun");
 
 app.set("port", port);
 
+app.use(cors({
+  origin: 'https://www.effectindex.com', // Your canonical domain
+}));
 // Import API Routes
 app.use(express.json({ limit: "1mb" }));
 app.use(api);
