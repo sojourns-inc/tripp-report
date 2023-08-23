@@ -17,9 +17,14 @@ const firstRun = require("./models/firstRun");
 
 app.set("port", port);
 
-app.use(cors({
-  origin: 'https://www.effectindex.com', // Your canonical domain
-}));
+const corsOptions = {
+  origin: ['https://www.effectindex.com', 'https://my.tripp.report', 'https://effectindex.com'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 // Import API Routes
 app.use(express.json({ limit: "1mb" }));
 app.use(api);
