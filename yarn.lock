@@ -9898,9 +9898,10 @@ watchpack@^1.7.4:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
 
-wavesurfer.js@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/wavesurfer.js/-/wavesurfer.js-6.2.0.tgz"
+wavesurfer.js@^7.4.5:
+  version "7.4.5"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-7.4.5.tgz#a66db31fb062ec87c77e2aa01b4f00a6f4ae73fd"
+  integrity sha512-Vwvui02yNlpe8NYCEcPH6KMlLm+0SELyAUsTbqLOdECLamS8iJI3LU8dyAhL7q1XhYHVhmK1i3jD4QtnnpajPQ==
 
 wcwidth@^1.0.0:
   version "1.0.1"
