@@ -95,22 +95,15 @@
           <img 
             v-if="(image.type === 'image')"
             ref="activeThumbnail"
-            :src="image.resource"
+            :src="image.resource.includes('https://') ? image.resource : 'https://cdn-cf-east.streamable.com/image/' + image.resource + '.jpg'"
             :class="current_image === index ? {active: true}: {}"
             class="lightBox__thumbnailImage"
           >
           <img
-            v-else-if="(image.thumbnail)"
+            v-if="(image.thumbnail)"
             ref="activeThumbnail"
-            :src="image.thumbnail"
+            :src="image.thumbnail.includes('https://') ? image.thumbnail : 'https://cdn-cf-east.streamable.com/image/' + image.thumbnail + '.jpg'"
             :class="current_image === index ? {active: true}: {}"
-            class="lightBox__thumbnailImage"
-          >
-          <img
-            v-else-if="image.type === 'gfycat'"
-            ref="activeThumbnail"
-            :src="'https://streamable.com/e/' + image.resource + '?autoplay=1&loop=1&nocontrols=1'"
-            :class="current_image === index ? {active: true}: {}" 
             class="lightBox__thumbnailImage"
           >
         </span>
