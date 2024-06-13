@@ -9,7 +9,7 @@
     >
       <div
         v-if="type === 'image'"
-        :style="{ backgroundImage: url }"
+        :style="'background-image: url(\'' + url + '\');'"
         class="modalImageContainer"
         @click.stop="toggleModal"
       >
@@ -29,7 +29,7 @@
         class="modalImageContainer"
       >
         <iframe
-          :src="'https://gfycat.com/ifr/' + src + '?autoplay=1&controls=0'"
+          :src="'https://streamable.com/e/' + src + '?autoplay=1&loop=1'"
           frameborder="0"
           scrolling="no"
           width="100%"
@@ -77,7 +77,8 @@ export default {
   },
   computed: {
     url() {
-      return `url("${this.src}")`;
+      console.log(`${this.src}`)
+      return `${this.src}`;
     }
   },
   methods: {

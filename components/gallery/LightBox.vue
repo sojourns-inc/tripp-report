@@ -13,7 +13,7 @@
           :key="currentImage.resource"
           v-touch:swipe.left="nextImage"
           v-touch:swipe.right="previousImage"
-          :style="'background-image: url(\'' + encodeURI(base + currentImage.resource) + '\');'"
+          :style="'background-image: url(\'' + currentImage.resource + '\');'"
           class="lightBox__image"
           @click.prevent="toggleModal()"
         >
@@ -30,7 +30,7 @@
           style="position:relative;height: 100%;"
         >
           <iframe
-            :src="'https://gfycat.com/ifr/' + currentImage.resource + '?autoplay=1'"
+            :src="'https://streamable.com/e/' + currentImage.resource + '?autoplay=1&loop=1&nocontrols=1'"
             frameborder="0"
             scrolling="no"
             width="100%"
@@ -95,21 +95,21 @@
           <img 
             v-if="(image.type === 'image')"
             ref="activeThumbnail"
-            :src="base + '/thumbnails/' + image.resource"
+            :src="image.resource"
             :class="current_image === index ? {active: true}: {}"
             class="lightBox__thumbnailImage"
           >
           <img
             v-else-if="(image.thumbnail)"
             ref="activeThumbnail"
-            :src="base + '/thumbnails/' + image.thumbnail"
+            :src="image.thumbnail"
             :class="current_image === index ? {active: true}: {}"
             class="lightBox__thumbnailImage"
           >
           <img
             v-else-if="image.type === 'gfycat'"
             ref="activeThumbnail"
-            :src="'https://thumbs.gfycat.com/' + image.resource + '-mobile.jpg'"
+            :src="'https://streamable.com/e/' + image.resource + '?autoplay=1&loop=1&nocontrols=1'"
             :class="current_image === index ? {active: true}: {}" 
             class="lightBox__thumbnailImage"
           >
@@ -180,6 +180,7 @@ export default {
   updated() {
     this.updateThumbnailOffset();
     if (!this.thumbs.length) this.$emit('listEnd');
+    console.log(this.thumbs);
   },
   methods: {
     updateThumbs() {
@@ -198,7 +199,7 @@ export default {
         if (!this.gfycats) this.thumbs = this.imageSet.filter((image) => (image.type !== 'gfycat'));
         else this.thumbs = this.imageSet;
       }
-      
+      console.log(this.thumbs);
     },
     updateThumbnailOffset() {
       setTimeout(() => {
@@ -236,7 +237,7 @@ export default {
     toggleModal() {
       let data = {
         type: this.currentImage.type,
-        resource: (this.currentImage.type === 'image') ? this.base + this.currentImage.resource : this.currentImage.resource 
+        resource: this.currentImage.resource
       };
 
       this.$store.commit("modal/set_data", data);

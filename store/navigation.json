@@ -21,7 +21,7 @@
     ]
   },
   "Trip Reports": {
-    "location": "https://subjective.report",
+    "location": "https://tripp-reporter-next-bwd2h6lt4-alevkov.vercel.app/",
     "external": true
   },
   "Project": {
@@ -32,7 +32,8 @@
       { "name": "Blog", "location": "/blog" },
       { "name": "Search", "location": "/search" },
       { "name": "Github", "location": "https://github.com/effectindex/EffectIndex", "external": true },
-      { "name": "Login", "location": "/user/login" }
+      { "name": "Login", "location": "/user/login" },
+      { "name": "Sign Up (Invite)", "location": "/user/register" }
     ]
   },
   "Community": {

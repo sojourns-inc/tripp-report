@@ -22,7 +22,7 @@
     >
       <iframe
         v-if="gfycat"
-        :src="'https://gfycat.com/ifr/' + gfycat + '?hd=1&wmmode=opaque'"
+        :src="'https://streamable.com/e/' + gfycat + '?autoplay=1&loop=1'"
         frameborder="0"
         scrolling="no"
         width="100%"

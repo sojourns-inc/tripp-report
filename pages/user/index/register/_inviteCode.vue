@@ -1,6 +1,6 @@
 <template>
   <div class="pageContent">
-    <h1> Register (by invitation only) </h1>
+    <h1> Sign Up </h1>
 
     <div class="register__formContainer">
       <form @submit.prevent="register">
@@ -8,18 +8,28 @@
           <label> Username </label> 
           <input v-model="user.username">
         </div>
-        <div> 
-          <label> Password </label> 
-          <input 
+        <div>  
+          <label> Email </label> 
+          <input v-model="user.email">
+        </div>
+        <div>
+          <label>Password</label>
+          <input
             v-model="user.password"
             type="password"
+            @input="checkPasswordStrength"
           >
+          <div
+            v-if="passwordStrengthMessage"
+            class="password-strength"
+          >
+            {{ passwordStrengthMessage }}
+          </div>
         </div>
         <div>
           <label> Invite Code </label> 
           <input 
-            :value="user.inviteCode"
-            :disabled="user.inviteCode ? true : false"
+            v-model="user.inviteCode"
           >
         </div>
         <button> Register </button>
@@ -44,10 +54,11 @@ export default {
       user: {
         username: "",
         password: "",
-        inviteCode: this.$route.params.inviteCode || ""
+        inviteCode: this.$route.params.inviteCode || "",
       },
       success: false,
-      errorMessage: ""
+      errorMessage: "",
+      passwordStrengthMessage: "",
     };
   },
   methods: {
@@ -59,11 +70,17 @@ export default {
         let newUser = await this.$store.dispatch("admin/register", this.user);
         if (newUser) {
           this.success = true;
-          this.$router.push("/user/login");
+
+          // Store the email in localStorage
+          localStorage.setItem('unverifiedEmail', this.user.email);
+          localStorage.setItem('unverifiedOtpSentDate', new Date().toISOString());
+
+          // Redirect to the verification page
+          this.$router.push("/user/verify");
         }
 
         this.$toasted.show(
-          'Registration success. Log in using your chosen credentials to access additional site functionality.',
+          'Registration successful. Please verify your email to access additional site functionality.',
           {
             duration: 2000,
             type: 'success'
@@ -71,7 +88,33 @@ export default {
         );
 
       } catch (error) {
-          this.errorMessage = error.message;
+        this.errorMessage = error.message;
+      }
+    },
+    checkPasswordStrength() {
+      const password = this.user.password;
+      let strength = 0;
+
+      if (password.length >= 8) strength += 1;
+      if (password.match(/[a-z]/)) strength += 1;
+      if (password.match(/[A-Z]/)) strength += 1;
+      if (password.match(/[0-9]/)) strength += 1;
+      if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+
+      switch (strength) {
+        case 1:
+        case 2:
+          this.passwordStrengthMessage = 'Weak Password';
+          break;
+        case 3:
+        case 4:
+          this.passwordStrengthMessage = 'Moderate Password';
+          break;
+        case 5:
+          this.passwordStrengthMessage = 'Strong Password';
+          break;
+        default:
+          this.passwordStrengthMessage = '';
       }
     },
     clear() {

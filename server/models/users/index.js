@@ -7,11 +7,15 @@ const hasPerms = require('../HasPerms');
 const API_Error = require('../ApiError');
 
 const User = require('./User');
+const Otp = require('../otps/Otp.js');
 const Invitation = require('../invitations/Invitation');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { isValidObjectId } = require('mongoose');
+
+const nodemailer = require('nodemailer');
+const crypto = require('crypto'); // For generating OTP
 
 router.get('/', secured({secret: config.server.jwtSecret, algorithms: ['HS256']}), hasPerms('admin'), async (req, res, next) => {
   try {
@@ -45,12 +49,10 @@ router.post('/add', secured({secret: config.server.jwtSecret, algorithms: ['HS25
 });
 
 router.post('/register', async (req, res, next) => {
-
   const { user } = req.body;
 
   try {
-
-    if (!user || !'username' in user || !'password' in user)  throw API_Error('REGISTRATION_ERROR', 'Invalid registration details.');
+    if (!user || !user.username || !user.password) throw API_Error('REGISTRATION_ERROR', 'Invalid registration details.');
     if (!user.inviteCode) throw API_Error('REGISTRATION_ERROR', 'An invitation code is required to register.');
 
     const invitation = await Invitation.findById(user.inviteCode).exec();
@@ -58,15 +60,13 @@ router.post('/register', async (req, res, next) => {
     if (!invitation) throw API_Error('REGISTRATION_ERROR', 'Invitation was not found.');
     if (invitation.used) throw API_Error('REGISTRATION_ERROR', 'Invitation is invalid.');
 
-    const { username, password } = user;
+    const { username, password, email } = user;
 
     if (username.length < 2 || username.length > 15) throw API_Error('REGISTRATION_ERROR', 'Username must be between 4 and 15 characters.');
     if (password.length < 6) throw API_Error('REGISTRATION_ERROR', 'The password must be 6 or more characters.');
 
     let hash = await bcrypt.hash(password, 10);
-
-    let newUser = new User({ username, hash });
-
+    let newUser = new User({ username, hash, email, verificationStatus: 'unverified' });
     let saved = await newUser.save();
 
     if (saved) {
@@ -75,11 +75,42 @@ router.post('/register', async (req, res, next) => {
       await invitation.save();
     }
 
-    res.sendStatus(200);
+    const otp = crypto.randomBytes(3).toString('hex');
+    const otpExpiresAt = new Date(new Date().getTime() + (30 * 60 * 1000));
+    const otpRecord = new Otp({ userId: newUser._id, otp, expiresAt: otpExpiresAt });
+    await otpRecord.save();
 
+    // Send OTP via email
+    // Create reusable transporter object using SMTP transport
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.sendgrid.net',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'apikey',
+          pass: config.server.sendGridApiKey,
+        },
+    });
+
+    const mailOptions = {
+      from: '"Effect Index" <admin@effectindex.org>',
+      to: email,
+      subject: 'Verify Your E-Mail',
+      text: `Your verification code is: ${otp}`,
+      html: `<b>Your verification code is: ${otp}</b>`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+        next(API_Error('EMAIL_ERROR', 'Failed to send verification email.'));
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(200).send({ message: 'Registration successful, verification email sent.' });
+      }
+    });
   } catch (err) {
-    if (err.code === 11000) next(API_Error('REGISTRATION_ERROR', 'Username already in use.'));
-    else next(err);
+    res.status(500).send({ message: err.message });
   }
 });
 

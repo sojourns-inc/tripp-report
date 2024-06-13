@@ -19,7 +19,8 @@ module.exports = {
         type: "text/css",
         href:
           "https://fonts.googleapis.com/css?family=Titillium+Web:400i,700,700i,400"
-      }
+      },
+      { src: 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true }
     ]
   },
 
@@ -157,9 +158,14 @@ module.exports = {
     }
   },
 
+  env: {
+    cfSiteKey: process.env.CF_SITE_KEY,
+  },
+
   server: {
     port: process.env.PORT || 3000, // Use the PORT environment variable provided by Heroku, default to 3000
     jwtSecret: process.env.jwtSecret,
+    sendGridApiKey: process.env.SENDGRID_API_KEY,
     mongooseUri: process.env.MONGOOSE_URI || `mongodb://localhost:27017/${process.env.DATABASE_NAME ? process.env.DATABASE_NAME : 'effectindex'}` // Use an environment variable for MongoDB URI or fallback to the local one
   },
 

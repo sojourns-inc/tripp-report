@@ -102,12 +102,12 @@
     >
       <img
         v-show="resource"
-        :src="'/img/gallery/' + resource"
+        :src="resource"
         height="200"
       >
       <img
         v-show="resource"
-        :src="'/img/gallery/thumbnails/' + resource"
+        :src="resource"
       >
     </div>
 
@@ -116,17 +116,17 @@
       class="replicationEditor__gfycatPreview"
     >
       <iframe
-        :src="'https://gfycat.com/ifr/' + resource"
+        :src="'https://streamable.com/e/' + resource + '?autoplay=1&loop=1'"
         frameborder="0"
         scrolling="no"
         height="200"
       />
-      <img
-        v-show="thumbnail || (type === 'gfycat')"
-        :src="thumbnail ?
-          ('/img/gallery/thumbnails/' + thumbnail) : 'https://thumbs.gfycat.com/' + resource + '-mobile.jpg'"
-        style="max-width: 300px;"
-      >
+      <iframe
+        :src="'https://streamable.com/e/' + resource + '?autoplay=1&loop=1'"
+        frameborder="0"
+        scrolling="no"
+        height="200"
+      />
     </div>
 
     <div

@@ -6,6 +6,8 @@ const UserSchema = new Schema({
     type: String,
     unique: true
   },
+  email: { type: String, required: true, unique: true },
+  verificationStatus: { type: String, default: "unverified" },
   hash: String,
   roles: {
     type: Array,

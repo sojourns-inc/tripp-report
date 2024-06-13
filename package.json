@@ -45,8 +45,10 @@
     "mongoose": "^6.5.0",
     "mongoose-slug-updater": "^3.3.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.8",
     "npm": "^8.15.1",
     "nuxt": "^2.15.8",
+    "nuxt2-turnstile": "^0.1.5",
     "parse-path": "^5.0.0",
     "parse-url": "^8.1.0",
     "prismjs": "^1.28.0",
@@ -69,6 +71,7 @@
   },
   "devDependencies": {
     "@nuxt/types": "~2.15.0",
+    "@vue/devtools": "^7.0.4",
     "babel-eslint": "^10.1.0",
     "babel-minify-webpack-plugin": "^0.3.1",
     "cross-env": "^7.0.3",
