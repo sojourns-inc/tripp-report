@@ -35,7 +35,7 @@ export default {
   components: { TurnstileWidget },
   data() {
     return {
-      cfSiteKey: process.env.CF_SITE_KEY, // Fetch the sitekey directly
+      cfSiteKey: "0x4AAAAAAAccukMGX0Hy0y2V", // Fetch the sitekey directly
       user: {
         username: undefined,
         password: undefined
