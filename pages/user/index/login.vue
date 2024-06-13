@@ -23,7 +23,7 @@
         <button :disabled="!turnstilePassed">Login</button>
       </form>
       <p v-show="errorMessage">
-        <span class="errorMessage"> Ungood. {{ errorMessage }} </span>
+        <span class="errorMessage"> {{ errorMessage }} </span>
       </p>
     </div>
   </div>

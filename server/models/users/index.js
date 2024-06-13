@@ -172,7 +172,7 @@ router.post('/login', async (req, res, next) => {
   try {
     if (!('user' in req.body)) throw API_Error('LOGIN_ERROR', 'The login request was invalid.');
     const { user } = req.body;
-    if (!('username' in user) || !('password' in user)) throw API_Error('LOGIN_ERROR', 'A username and password is required.');
+    if (!('username' in user) || !('password' in user)) throw API_Error('LOGIN_ERROR', 'Please log in with your username and passsword.');
     const foundUser = await User.findOne({ username: user.username }).exec();
     if (!foundUser) throw API_Error('LOGIN_ERROR', 'Username not found.');
     const validPassword = await bcrypt.compare(String(user.password), foundUser.hash);
