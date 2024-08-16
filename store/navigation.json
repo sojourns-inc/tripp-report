@@ -20,57 +20,13 @@
       { "name": "Tutorials", "location": "/replications/tutorials" }
     ]
   },
-  {
-    "Home": {
-      "location": "/"
-    },
-    "Effects": {
-      "location": "/effects",
-      "children": [
-        { "name": "Index", "location": "/effects" },
-        { "name": "Sensory", "location": "/effects?type=Sensory" },
-        { "name": "Cognitive", "location": "/effects?type=Cognitive" },
-        { "name": "Physical", "location": "/effects?type=Physical" }
-      ]
-    },
-    "Replications": {
-      "location": "/replications",
-      "children": [
-        { "name": "Gallery", "location": "/replications" },
-        { "name": "Audio", "location": "/replications/audio" },
-        { "name": "Subreddit", "location": "https://reddit.com/r/replications", "external": true },
-        { "name": "Tutorials", "location": "/replications/tutorials" }
-      ]
-    },
-    "Trip Reports": {
-      "location": "/reports",
-      "children": [
-        { "name": "Trip Reports", "location": "/reports" },
-        { "name": "Submit Report", "location": "https://tripp-reporter-next.vercel.app/", "external": true},
-      ]
-    },
-    "Project": {
-      "location": "/about",
-      "children": [
-        { "name": "About", "location": "/about" },
-        { "name": "Articles", "location": "/articles" },
-        { "name": "Blog", "location": "/blog" },
-        { "name": "Search", "location": "/search" },
-        { "name": "Github", "location": "https://github.com/effectindex/EffectIndex", "external": true },
-        { "name": "Login", "location": "/user/login" },
-        { "name": "Sign Up (Invite)", "location": "/user/register" }
-      ]
-    },
-    "Community": {
-      "location": "/discord",
-      "children": [
-        { "name": "People", "location": "/people" },
-        { "name": "Discord", "location": "/discord" },
-        { "name": "Contact", "location": "/contact" }
-      ]
-    }
-  }
-  
+  "Trip Reports": {
+    "location": "/reports",
+    "children": [
+      { "name": "Trip Reports", "location": "/reports" },
+      { "name": "Submit Report", "location": "https://tripp-reporter-next.vercel.app/", "external": true},
+    ]
+  },
   "Project": {
     "location": "/about",
     "children": [
