@@ -20,13 +20,13 @@
       { "name": "Tutorials", "location": "/replications/tutorials" }
     ]
   },
-  "Trip Reports": {
-    "location": "/reports",
-    "children": [
-      { "name": "Trip Reports", "location": "/reports" },
-      { "name": "Submit Report", "location": "https://tripp-reporter-next.vercel.app/", "external": true},
-    ]
-  },
+"Trip Reports": {
+  "location": "/reports",
+  "children": [
+    { "name": "Trip Reports", "location": "/reports" },
+    { "name": "Submit Report", "location": "https://rc.community/submit-report", "external": true }
+  ]
+},
   "Project": {
     "location": "/about",
     "children": [
